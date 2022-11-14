@@ -1,9 +1,9 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { ThemeProvider, createTheme, styled } from '@mui/material/styles';
-import NavBar from './NavBar';
-import Blog from './Blog';
-import Home from './Home';
+import NavBar from './components/NavBar';
+import Blog from './pages/Blog';
+import Home from './pages/Home';
 
 const darkTheme = createTheme({
 	palette: {

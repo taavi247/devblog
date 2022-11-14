@@ -33,7 +33,7 @@ function NavBar() {
 	return (
 		<div className='nav-bar'>
 			<AppBar position='static'>
-				<Container maxWidth='x1'>
+				<Container maxWidth='md'>
 					<Toolbar disableGutters>
 						<AdbIcon />
 						<Box>
