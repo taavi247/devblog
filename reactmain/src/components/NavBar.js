@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import {
 	AppBar,
 	Box,
@@ -12,20 +12,26 @@ import {
 	MenuItem
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
-import AdbIcon from '@mui/icons-material/Adb';
+import { styled } from '@mui/material/styles';
 
 const pages = [
-	{ name: 'Home', link: '/' },
-	{ name: 'Blog', link: '/blog' }
+	{ name: 'Blog', link: '/' },
+	{ name: 'About', link: '/about' }
 ];
+
+const StyledBox = styled(Box)({
+	flexGrow: 1,
+	display: 'flex',
+	justifyContent: 'right',	
+});
 
 function NavBar() {
 	const [anchorElNav, setAnchorElNav] = useState(null);
-
+	
 	const handleOpenNavMenu = (event) => {
 		setAnchorElNav(event.currentTarget);
 	};
-
+	
 	const handleCloseNavMenu = () => {
 		setAnchorElNav(null);
 	};
@@ -35,7 +41,6 @@ function NavBar() {
 			<AppBar position='static'>
 				<Container maxWidth='md'>
 					<Toolbar disableGutters>
-						<AdbIcon />
 						<Box>
 							<IconButton onClick={handleOpenNavMenu}>
 								<MenuIcon />
@@ -64,27 +69,28 @@ function NavBar() {
 								))}
 							</Menu>
 						</Box>
+						<h2> Dev Blog </h2>
 
-						<Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+						<StyledBox>
 							{pages.map((page) => (
 								<Button
 									component={Link}
 									to={page.link}
 									key={page.name}
 									onClick={handleCloseNavMenu}
-									sx={{ my: 2, color: 'white', display: 'block' }}
+									sx={{ my: 1, color: 'black', display: 'inline' }}
 								>
 									<Typography textAlign="center">
 										{page.name}
 									</Typography>
 								</Button>
 							))}
-						</Box>
+						</StyledBox>
 					</Toolbar>
 				</Container>
 			</AppBar>
 		</div>
-	);
+    );
 }
 
 export default NavBar;

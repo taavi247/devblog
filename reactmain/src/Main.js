@@ -1,30 +1,35 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
-import { ThemeProvider, createTheme, styled } from '@mui/material/styles';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
 import NavBar from './components/NavBar';
+import About from './pages/About';
 import Blog from './pages/Blog';
-import Home from './pages/Home';
+import ShowPost from './pages/ShowPost';
 
-const darkTheme = createTheme({
+const blogTheme = createTheme({
 	palette: {
-		mode: 'dark',
+		primary: {
+			light: '#FFFFFF',
+			main: '#FFFFFF',
+			dark: '#FFFFFF',
+			contrastText: '#000000',
+		},
 	},
 });
 
-function Main() {
+export default function Main() {
 	return (
 		<div className='main'>
-			<ThemeProvider theme={darkTheme}>
+			<ThemeProvider theme={blogTheme}>
 				<NavBar />
 				<div className='routes'>
 					<Routes>
-						<Route path='/' element={<Home />} />
-						<Route path='/blog' element={<Blog />} />
+						<Route path='/' element={<Blog />} />
+						<Route path='/showpost' element={<ShowPost />} />
+						<Route path='/about' element={<About />} />
 					</Routes>
 				</div>
 			</ThemeProvider>
 		</div>
 	);
 }
-
-export default Main;
