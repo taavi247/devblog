@@ -7,7 +7,7 @@ const ShowPost = () => {
 
     return (
         <Container maxWidth='md'>
-            <h2>About</h2>
+            <h2>{post.title}</h2>
             <p maxWidth='md'>
                 {post.description}
             </p>

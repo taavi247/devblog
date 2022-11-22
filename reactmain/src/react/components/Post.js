@@ -13,7 +13,7 @@ import { Link } from 'react-router-dom';
 const StyledCard = styled(Card)({
     background: '#FFFFFF',
     margin: 10,
-    
+
 });
 
 const StyledTitle = styled(Typography)({
@@ -32,14 +32,7 @@ export default function Post(props) {
                         <StyledTitle>
                             {post.title}
                         </StyledTitle>
-                        <CardMedia
-                            component='img'
-                            image={require('../assets/imgs/' + post.image).default}
-                            alt='Picture'
-                            title='A Bug'
-                            justifyContent='left'
-                            sx={{ objectFit: "contain" }}
-                        />
+
                         <Typography>
                             {post.description}
                         </Typography>
@@ -49,3 +42,12 @@ export default function Post(props) {
         </Grid>
     );
 }
+
+//<CardMedia
+//    component='img'
+//    image={require('../assets/imgs/' + post.image).default}
+//    alt='Picture'
+//    title='A Bug'
+//    justifyContent='left'
+//    sx={{ objectFit: "contain" }}
+///>

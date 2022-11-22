@@ -6,6 +6,6 @@ db.sqlite3
 media
 static
 
-/.vs
+.vs
 
 /node_modules

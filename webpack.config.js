@@ -3,7 +3,7 @@ const path = require('path')
 module.exports = {
     name: 'reactmain-config',
     entry: {
-        reactmain: './reactmain/src/index.js',
+        reactmain: './reactmain/src/react/index.js',
     },
     output: {
         path: path.resolve('./reactmain/static/reactmain/'),
