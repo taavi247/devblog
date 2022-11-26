@@ -1,18 +1,18 @@
 import React from 'react'
-import { Container } from '@mui/material';
+import { Container, Typography } from '@mui/material';
 import { useLocation } from 'react-router-dom';
 
 const ShowPost = () => {
-    const post = useLocation().state;
+  const post = useLocation().state;
 
-    return (
-        <Container maxWidth='md'>
-            <h2>{post.title}</h2>
-            <p maxWidth='md'>
-                {post.description}
-            </p>
-        </Container>
-    );
+  return (
+    <Container maxWidth='md'>
+      <Typography variant='h5'>{post.title}</Typography>
+      <p>
+        {post.description}
+      </p>
+    </Container>
+  );
 }
 
 export default ShowPost;

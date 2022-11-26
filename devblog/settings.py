@@ -46,7 +46,7 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
+    #'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -78,8 +78,8 @@ WSGI_APPLICATION = 'devblog.wsgi.application'
 
 #DATABASES = {
 #    'default': {
-#        'ENGINE': 'djongo',
-#        'NAME': 'db_devblog',
+#        'ENGINE': '',
+#        'NAME': '',
 #    }
 #}
 
@@ -103,7 +103,8 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 CORS_ALLOWED_ORIGINS = [
-    'http://localhost:3000',
+    'http://localhost:8000',
+    'http://127.0.0.1:8000',
 ]
 
 

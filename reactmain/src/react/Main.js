@@ -5,6 +5,7 @@ import NavBar from './components/NavBar';
 import About from './pages/About';
 import Blog from './pages/Blog';
 import ShowPost from './pages/ShowPost';
+import ManageBlog from './pages/ManageBlog';
 
 const blogTheme = createTheme({
 	palette: {
@@ -23,10 +24,11 @@ export default function Main() {
 			<ThemeProvider theme={blogTheme}>
 				<NavBar />
 				<div className='routes'>
-					<Routes>
+			    <Routes>
 						<Route path='/' element={<Blog />} />
 						<Route path='/showpost' element={<ShowPost />} />
 						<Route path='/about' element={<About />} />
+						<Route path='/manageblog' element={<ManageBlog />} />
 					</Routes>
 				</div>
 			</ThemeProvider>

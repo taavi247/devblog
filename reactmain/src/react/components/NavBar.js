@@ -16,22 +16,23 @@ import { styled } from '@mui/material/styles';
 
 const pages = [
 	{ name: 'Blog', link: '/' },
-	{ name: 'About', link: '/about' }
+	{ name: 'About', link: '/about' },
+	{ name: 'Manage', link: '/manageblog' }
 ];
 
 const StyledBox = styled(Box)({
 	flexGrow: 1,
 	display: 'flex',
-	justifyContent: 'right',	
+	justifyContent: 'right',
 });
 
-function NavBar() {
+export default function NavBar() {
 	const [anchorElNav, setAnchorElNav] = useState(null);
-	
+
 	const handleOpenNavMenu = (event) => {
 		setAnchorElNav(event.currentTarget);
 	};
-	
+
 	const handleCloseNavMenu = () => {
 		setAnchorElNav(null);
 	};
@@ -90,7 +91,5 @@ function NavBar() {
 				</Container>
 			</AppBar>
 		</div>
-    );
+	);
 }
-
-export default NavBar;
