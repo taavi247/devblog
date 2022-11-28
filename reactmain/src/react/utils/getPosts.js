@@ -1,7 +1,7 @@
-const URL_GETPOST = 'http://localhost:8000/api/getpost?id=';
-const URL_GETPOSTS = 'http://localhost:8000/api/getposts';
-const URL_GETTITLES = 'http://localhost:8000/api/gettitles';
-const URL_DELETEPOST = 'http://localhost:8000/api/deletepost?id=';
+const URL_GETPOST = 'http://127.0.0.1:8000/api/getpost?id=';
+const URL_GETPOSTS = 'http://127.0.0.1:8000/api/getposts';
+const URL_GETTITLES = 'http://127.0.0.1:8000/api/gettitles';
+const URL_DELETEPOST = 'http://127.0.0.1:8000/api/deletepost?id=';
 
 export const getPost = (id) => {
   return getAPI(URL_GETPOST + id);
@@ -32,7 +32,12 @@ const getAPI = (url) => {
 }
 
 async function fetchPosts(options, url) {
-  const response = await fetch(url, options);
-  const posts_json = await response.json();
-  return posts_json;
+  try {
+    const response = await fetch(url, options);
+    const posts_json = await response.json();
+    return posts_json;
+  }
+  catch (error) {
+    return;
+  }
 }

@@ -15,12 +15,13 @@ def edit_post(postdata):
 	}
 
 	if (postdata.get('post_id') == 'new'):
-		posts.insert_one(post)
-		return HttpResponse('A new post added', content_type='text/html')
+		title = list(posts.find({'title': postdata.get('title')}))
+		if title == []:
+			print('newww')
+			posts.insert_one(post)
 	else:
 		query = {'_id': ObjectId(postdata.get('post_id'))}
 		posts.replace_one(query, post)
-		return HttpResponse('Post edited', content_type='text/html')
 
 def delete_post(id):
 	client = MongoClient()

@@ -25,7 +25,7 @@ const Blog = () => {
 
   useEffect(() => {
     updatePosts();
-  }, [posts]);
+  }, []);
 
   return (
     <Container maxWidth='md'>

@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse
 from reactmain.src.django.utils import blog_utils
 from django.urls import reverse
 
@@ -10,12 +10,12 @@ def edit_post(request):
 	if request.method == 'POST':
 		postdata = request.POST
 		blog_utils.edit_post(postdata)
-		return HttpResponseRedirect('')
+		return HttpResponse(status=204)
 
 def delete_post(request):
 	if request.method == 'GET':
 		blog_utils.delete_post(request.GET.get('id', ''))
-		return HttpResponseRedirect('')
+		return HttpResponse(status=204)
 
 def get_post(request):
 	if request.method == 'GET':

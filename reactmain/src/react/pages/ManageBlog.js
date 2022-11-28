@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react'
-import { Container, Paper } from '@mui/material';
+import { Container } from '@mui/material';
 import { getPost, getTitles, deletePost } from '../utils/getPosts';
+
+const URL_POSTAPI = 'http://localhost:8000/api/editpost';
 
 const emptyPost = [
   {
@@ -16,6 +18,7 @@ const emptyPost = [
 const ManageBlog = () => {
   const [titles, setTitles] = useState(emptyPost);
   const [post, setPost] = useState(emptyPost);
+  const [isSaved, setIsSaved] = useState(false);
 
   useEffect(() => {
     if (typeof post.title !== 'undefined') {
@@ -30,7 +33,7 @@ const ManageBlog = () => {
       document.getElementById('post_content').value = '';
       document.getElementById('post_id').value = 'new';
     }
-  }, [post._id]);
+  }, [post]);
 
   const handleSelectClick = () => {
     updateTitles();
@@ -53,6 +56,8 @@ const ManageBlog = () => {
 
   const handleDeleteClick = () => {
     deletePost(post._id.$oid);
+    setPost(emptyPost[0]);
+    document.getElementById('select_post').options.selectedIndex = 1;
   }
 
   const updateTitles = () => {
@@ -77,6 +82,14 @@ const ManageBlog = () => {
     });
   }
 
+  const handleSubmit = () => {
+    setIsSaved(true);
+
+    setTimeout(() => {
+      setIsSaved(false);
+    }, 2000);
+  }
+
   return (
     <Container className='blog_list' maxWidth='md'>
       <b>Select post</b>
@@ -99,7 +112,7 @@ const ManageBlog = () => {
         Delete
       </button>
 
-      <form method='post' action='http://localhost:8000/api/editpost'>
+      <form method='post' action={URL_POSTAPI}>
         <label>
           <b>Title</b>
           <br />
@@ -120,7 +133,8 @@ const ManageBlog = () => {
         </label>
         <br />
         <input type='hidden' id='post_id' name='post_id' />
-        <input type='submit' value='Save' />
+        <input type='submit' onClick={handleSubmit} value='Save' />
+        <span>{isSaved && <p>Saving...</p>}</span>
       </form>
     </Container>
   );
