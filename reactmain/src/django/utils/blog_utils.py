@@ -2,6 +2,7 @@ from pymongo import MongoClient
 from bson.json_util import dumps
 from bson.objectid import ObjectId
 from django.http import HttpResponse
+from datetime import date
 
 def edit_post(postdata):
 	client = MongoClient()
@@ -11,17 +12,25 @@ def edit_post(postdata):
 	post = {
 		"title": postdata.get('title'),
 		"description": postdata.get('description'),
-		"content": postdata.get('content')
+		"content": postdata.get('content'),
+		"date_created": '',
+		"date_modified": ''
 	}
 
-	if (postdata.get('post_id') == 'new'):
+	post_id = postdata.get('post_id')
+	
+	if (post_id == 'new'):
 		title = list(posts.find({'title': postdata.get('title')}))
 		if title == []:
-			print('newww')
+			post['date_created'] = date.today().isoformat()
+			post['date_modified'] = date.today().isoformat()
 			posts.insert_one(post)
 	else:
-		query = {'_id': ObjectId(postdata.get('post_id'))}
-		posts.replace_one(query, post)
+		id_query = {'_id': ObjectId(post_id)}
+		created = posts.find_one(id_query, {'date_created': 1})
+		post['date_created'] = created['date_created']
+		post['date_modified'] = date.today().isoformat()
+		posts.replace_one(id_query, post)
 
 def delete_post(id):
 	client = MongoClient()

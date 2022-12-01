@@ -9,6 +9,7 @@ import {
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { Link } from 'react-router-dom';
+import PostTextStylizer from '../components/PostTextStylizer';
 
 const StyledCard = styled(Card)({
   background: '#FFFFFF',
@@ -31,10 +32,11 @@ export default function Post(props) {
             <StyledTitle>
               {post.title}
             </StyledTitle>
-
             <Typography>
-              {post.description}
+              Created: {post.date_created} Modified: {post.date_modified}
             </Typography>
+            <br />
+            {PostTextStylizer(post.description)}
           </CardContent>
         </StyledCard>
       </CardActionArea>

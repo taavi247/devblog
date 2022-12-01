@@ -12,6 +12,7 @@ const emptyPost = [
     'title': '',
     'description': '',
     'content': '',
+    'date_created': '',
   }
 ]
 
@@ -87,7 +88,7 @@ const ManageBlog = () => {
 
     setTimeout(() => {
       setIsSaved(false);
-    }, 2000);
+    }, 1000);
   }
 
   return (
