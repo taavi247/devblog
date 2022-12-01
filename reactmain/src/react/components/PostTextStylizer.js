@@ -1,10 +1,11 @@
+import React from 'react';
 import { Typography } from '@mui/material';
 
 const PostTextStylizer = (text) => {
   var splitted = text.split('\n');
-  return splitted.map(str => {
+  return splitted.map((str, index) => {
     return (
-      <div>
+      <div key={index}>
         <Typography>{str}</Typography>
         <br />
       </div>

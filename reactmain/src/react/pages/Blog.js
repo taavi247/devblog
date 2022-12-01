@@ -8,9 +8,13 @@ import { getPosts } from '../utils/getPosts';
 
 const emptyPost = [
   {
+    '_id': {
+      '$oid': 'new',
+    },
     'title': '',
     'description': '',
     'content': '',
+    'date_created': '',
   }
 ]
 
