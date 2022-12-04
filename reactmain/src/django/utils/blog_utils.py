@@ -14,7 +14,8 @@ def edit_post(postdata):
 		"description": postdata.get('description'),
 		"content": postdata.get('content'),
 		"date_created": '',
-		"date_modified": ''
+		"date_modified": '',
+		"image": postdata.get('image')
 	}
 
 	post_id = postdata.get('post_id')

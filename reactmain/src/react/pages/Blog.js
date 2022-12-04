@@ -5,21 +5,10 @@ import {
 } from '@mui/material';
 import Post from '../components/Post';
 import { getPosts } from '../utils/getPosts';
-
-const emptyPost = [
-  {
-    '_id': {
-      '$oid': 'new',
-    },
-    'title': '',
-    'description': '',
-    'content': '',
-    'date_created': '',
-  }
-]
+import * as constants from '../common/constants';
 
 const Blog = () => {
-  const [posts, setPosts] = useState(emptyPost);
+  const [posts, setPosts] = useState(constants.emptyPost);
 
   const updatePosts = () => {
     getPosts().then(json => {

@@ -33,8 +33,15 @@ export default function Post(props) {
               {post.title}
             </StyledTitle>
             <Typography>
-              Created: {post.date_created} Modified: {post.date_modified}
+              Created: {post.date_created}
             </Typography>
+            <CardMedia
+              component='img'
+              image={post.image}
+              alt='Picture'
+              title={post.title}
+              sx={{ objectFit: "contain" }}
+            />
             <br />
             {PostTextStylizer(post.description)}
           </CardContent>
@@ -43,12 +50,3 @@ export default function Post(props) {
     </Grid>
   );
 }
-
-//<CardMedia
-//    component='img'
-//    image={require('../assets/imgs/' + post.image).default}
-//    alt='Picture'
-//    title='A Bug'
-//    justifyContent='left'
-//    sx={{ objectFit: "contain" }}
-///>

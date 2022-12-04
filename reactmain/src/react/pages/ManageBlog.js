@@ -1,24 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { Container } from '@mui/material';
 import { getPost, getTitles, deletePost } from '../utils/getPosts';
+import * as constants from '../common/constants';
 
 const URL_POSTAPI = 'http://localhost:8000/api/editpost';
 
-const emptyPost = [
-  {
-    '_id': {
-      '$oid': 'new',
-    },
-    'title': '',
-    'description': '',
-    'content': '',
-    'date_created': '',
-  }
-]
-
 const ManageBlog = () => {
-  const [titles, setTitles] = useState(emptyPost);
-  const [post, setPost] = useState(emptyPost);
+  const [titles, setTitles] = useState(constants.emptyPost);
+  const [post, setPost] = useState(constants.emptyPost);
   const [isSaved, setIsSaved] = useState(false);
 
   useEffect(() => {
@@ -27,12 +16,14 @@ const ManageBlog = () => {
       document.getElementById('post_description').value = post.description;
       document.getElementById('post_content').value = post.content;
       document.getElementById('post_id').value = post._id.$oid;
+      document.getElementById('post_image').value = post.image;
     }
     else {
       document.getElementById('post_title').value = '';
       document.getElementById('post_description').value = '';
       document.getElementById('post_content').value = '';
       document.getElementById('post_id').value = 'new';
+      document.getElementById('post_image').value = '';
     }
   }, [post]);
 
@@ -46,7 +37,7 @@ const ManageBlog = () => {
     const selectedId = document.getElementsByTagName('option')[selectedIndex].value;
 
     if (selectedId === 'new') {
-      setPost(emptyPost[0]);
+      setPost(constants.emptyPost[0]);
     }
     else {
       getPost(selectedId).then(json => {
@@ -57,7 +48,7 @@ const ManageBlog = () => {
 
   const handleDeleteClick = () => {
     deletePost(post._id.$oid);
-    setPost(emptyPost[0]);
+    setPost(constants.emptyPost[0]);
     document.getElementById('select_post').options.selectedIndex = 1;
   }
 
@@ -131,6 +122,12 @@ const ManageBlog = () => {
           <b>Content</b>
           <br />
           <textarea id='post_content' name='content' rows='30' cols='80' />
+        </label>
+        <br />
+        <label>
+          <b>Image</b>
+          <br />
+          <textarea id='post_image' name='image' rows='1' cols='80' />
         </label>
         <br />
         <input type='hidden' id='post_id' name='post_id' />
