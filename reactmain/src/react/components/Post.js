@@ -4,49 +4,56 @@ import {
   CardActionArea,
   CardContent,
   CardMedia,
-  Grid,
+  Paper,
   Typography
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { Link } from 'react-router-dom';
 import PostTextStylizer from '../components/PostTextStylizer';
 
-const StyledCard = styled(Card)({
-  background: '#FFFFFF',
-  margin: 10,
+const StyledTitle = styled(Typography)({
+  fontFamily: 'cursive',
+  fontStyle: 'normal',
+  fontSize: 20,
+  fontWeight: 'normal',
+  paddingBottom: 4,
 });
 
-const StyledTitle = styled(Typography)({
-  fontSize: 18,
-  paddingBottom: 4,
+const StyledCardMedia = styled(CardMedia)({
+  width: '40%',
+  margin: 'auto',
 });
 
 export default function Post(props) {
   const { post } = props;
 
   return (
-    <Grid item xs={12} md={6}>
-      <CardActionArea component={Link} to='/showpost' state={post}>
-        <StyledCard>
-          <CardContent>
-            <StyledTitle>
-              {post.title}
-            </StyledTitle>
-            <Typography>
-              Created: {post.date_created}
-            </Typography>
-            <CardMedia
+    <React.Fragment>
+      <br />
+      <Paper variant='outlined'>
+        <CardActionArea component={Link} to='/showpost' state={post}>
+          <Card sx={{ display: 'flex' }}>
+            <StyledCardMedia
               component='img'
               image={post.image}
               alt='Picture'
-              title={post.title}
-              sx={{ objectFit: "contain" }}
+              sx={{ display: { xs: 'none', sm: 'block', md: 'block' } }}
             />
-            <br />
-            {PostTextStylizer(post.description)}
-          </CardContent>
-        </StyledCard>
-      </CardActionArea>
-    </Grid>
+            <CardContent sx={{ flex: 1 }}>
+              <StyledTitle>
+                {post.title}
+              </StyledTitle>
+              <Typography paddingBottom={1} sx={{ color: 'gray', fontStyle: 'italic' }}>
+                {post.date_created}
+              </Typography>
+              {PostTextStylizer(post.description)}
+              <Typography sx={{ color: 'gray', fontSize: 16 }}>
+                Read more...
+              </Typography>
+            </CardContent>
+          </Card>
+        </CardActionArea>
+      </Paper>
+    </React.Fragment>
   );
 }

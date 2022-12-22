@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import {
-  Container,
-  Grid
+  Container
 } from '@mui/material';
 import Post from '../components/Post';
 import { getPosts } from '../utils/getPosts';
@@ -12,6 +11,12 @@ const Blog = () => {
 
   const updatePosts = () => {
     getPosts().then(json => {
+      json.sort((a, b) => {
+        if (a.date_created > b.date_created) {
+          return -1;
+        }
+        return 0;
+      })
       setPosts(json);
     });
   }
@@ -22,11 +27,9 @@ const Blog = () => {
 
   return (
     <Container maxWidth='md'>
-      <Grid container spacing={4}>
-        {posts.map((post) => (
-          <Post key={post.title} post={post} />
-        ))}
-      </Grid>
+      {posts.map((post) => (
+        <Post key={post.title} post={post} />
+      ))}
     </Container>
   );
 }

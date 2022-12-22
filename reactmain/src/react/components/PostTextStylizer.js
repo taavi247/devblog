@@ -5,10 +5,10 @@ const PostTextStylizer = (text) => {
   var splitted = text.split('\n');
   return splitted.map((str, index) => {
     return (
-      <div key={index}>
+      <React.Fragment>
         <Typography>{str}</Typography>
         <br />
-      </div>
+      </React.Fragment>
     );
   });
 }

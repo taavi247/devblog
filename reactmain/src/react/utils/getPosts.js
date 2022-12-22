@@ -15,6 +15,10 @@ export const getTitles = () => {
   return getAPI(URL_GETTITLES);
 }
 
+export const editPost = (id) => {
+  return getAPI(URL_DELETEPOST + id);
+}
+
 export const deletePost = (id) => {
   return getAPI(URL_DELETEPOST + id);
 }
@@ -23,7 +27,10 @@ const getAPI = (url) => {
   const options = {
     referrer: 'no-referrer-when-downgrade',
     method: 'GET',
-    headers: { 'Content-Type': 'application/json' },
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Token ' + sessionStorage.getItem('token')
+    },
   };
 
   return fetchPosts(options, url).then(posts_json => {

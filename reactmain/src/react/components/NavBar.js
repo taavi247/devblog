@@ -72,7 +72,7 @@ export default function NavBar() {
 						</Box>
 						<h2> Dev Blog </h2>
 
-						<StyledBox>
+						<StyledBox sx={{ display: { xs: 'none', sm: 'flex' } }}>
 							{pages.map((page) => (
 								<Button
 									component={Link}

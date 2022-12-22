@@ -2,30 +2,39 @@ import React, { useEffect, useState } from 'react'
 import { Container } from '@mui/material';
 import { getPost, getTitles, deletePost } from '../utils/getPosts';
 import * as constants from '../common/constants';
+import Login from './Login';
 
 const URL_POSTAPI = 'http://localhost:8000/api/editpost';
+const URL_AUTH_USER = 'http://localhost:8000/api/authorize-user';
 
 const ManageBlog = () => {
   const [titles, setTitles] = useState(constants.emptyPost);
   const [post, setPost] = useState(constants.emptyPost);
   const [isSaved, setIsSaved] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
-    if (typeof post.title !== 'undefined') {
-      document.getElementById('post_title').value = post.title;
-      document.getElementById('post_description').value = post.description;
-      document.getElementById('post_content').value = post.content;
-      document.getElementById('post_id').value = post._id.$oid;
-      document.getElementById('post_image').value = post.image;
-    }
-    else {
-      document.getElementById('post_title').value = '';
-      document.getElementById('post_description').value = '';
-      document.getElementById('post_content').value = '';
-      document.getElementById('post_id').value = 'new';
-      document.getElementById('post_image').value = '';
+    if (isAuthenticated) {
+      if (typeof post.title !== 'undefined') {
+        document.getElementById('post_title').value = post.title;
+        document.getElementById('post_description').value = post.description;
+        document.getElementById('post_content').value = post.content;
+        document.getElementById('post_id').value = post._id.$oid;
+        document.getElementById('post_image').value = post.image;
+      }
+      else {
+        document.getElementById('post_title').value = '';
+        document.getElementById('post_description').value = '';
+        document.getElementById('post_content').value = '';
+        document.getElementById('post_id').value = 'new';
+        document.getElementById('post_image').value = '';
+      }
     }
   }, [post]);
+
+  useEffect(() => {
+    checkIfAuthenticated();
+  });
 
   const handleSelectClick = () => {
     updateTitles();
@@ -74,12 +83,65 @@ const ManageBlog = () => {
     });
   }
 
-  const handleSubmit = () => {
+  const handleClickSubmit = () => {
     setIsSaved(true);
 
     setTimeout(() => {
       setIsSaved(false);
     }, 1000);
+  }
+
+  function checkIfAuthenticated() {
+    const options = {
+      referrer: 'no-referrer-when-downgrade',
+      method: 'GET',
+      headers: {
+        'content-type': 'application/json',
+        'Authorization': 'Token ' + sessionStorage.getItem('token')
+      },
+    };
+
+    fetch(URL_AUTH_USER, options)
+      .then(response => response.json())
+      .then(payload => {
+        if (payload.Authenticated == 'True') {
+          setIsAuthenticated(true);
+        }
+        else {
+          setIsAuthenticated(false);
+        }
+      })
+  }
+
+  const setToken = (token) => {
+    sessionStorage.setItem('token', token);
+    checkIfAuthenticated();
+  }
+
+  if (!isAuthenticated) {
+    return <Login setToken={setToken} />
+  }
+
+  const handleSubmit = async e => {
+    e.preventDefault();
+
+    const title = e.target.title.value;
+    const description = e.target.description.value;
+    const content = e.target.content.value;
+    const image = e.target.image.value;
+    const post_id = e.target.post_id.value;
+
+    const options = {
+      referrer: 'no-referrer-when-downgrade',
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json',
+        'Authorization': 'Token ' + sessionStorage.getItem('token')
+      },
+      body: JSON.stringify({ title, description, content, image, post_id })
+    };
+
+    const response = await fetch(URL_POSTAPI, options);
   }
 
   return (
@@ -104,12 +166,17 @@ const ManageBlog = () => {
         Delete
       </button>
 
-      <form method='post' action={URL_POSTAPI}>
+      <form onSubmit={handleSubmit}>
         <label>
           <b>Title</b>
           <br />
           <textarea id='post_title' name='title' rows='1' cols='80' />
+        </label>
+        <br />
+        <label>
+          <b>Image URL</b>
           <br />
+          <textarea id='post_image' name='image' rows='1' cols='80' />
         </label>
         <br />
         <label>
@@ -124,14 +191,8 @@ const ManageBlog = () => {
           <textarea id='post_content' name='content' rows='30' cols='80' />
         </label>
         <br />
-        <label>
-          <b>Image</b>
-          <br />
-          <textarea id='post_image' name='image' rows='1' cols='80' />
-        </label>
-        <br />
         <input type='hidden' id='post_id' name='post_id' />
-        <input type='submit' onClick={handleSubmit} value='Save' />
+        <input type='submit' onClick={handleClickSubmit} value='Save' />
         <span>{isSaved && <p>Saving...</p>}</span>
       </form>
     </Container>
