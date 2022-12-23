@@ -7,11 +7,10 @@ import Login from './Login';
 const URL_POSTAPI = 'http://localhost:8000/api/editpost';
 const URL_AUTH_USER = 'http://localhost:8000/api/authorize-user';
 
-const ManageBlog = () => {
+const ManageBlog = ({ isAuthenticated, setIsAuthenticated }) => {
   const [titles, setTitles] = useState(constants.emptyPost);
   const [post, setPost] = useState(constants.emptyPost);
   const [isSaved, setIsSaved] = useState(false);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -144,7 +143,7 @@ const ManageBlog = () => {
     await fetch(URL_POSTAPI, options);
   }
 
-  if (!getToken() && !isAuthenticated) {
+  if (!getToken() || !isAuthenticated) {
     return <Login setToken={setToken} />
   }
   else {

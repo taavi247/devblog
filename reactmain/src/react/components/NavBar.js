@@ -12,7 +12,9 @@ import {
 	MenuItem
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
+import LogoutIcon from '@mui/icons-material/Logout';
 import { styled } from '@mui/material/styles';
+import { useNavigate } from 'react-router-dom';
 
 const pages = [
 	{ name: 'Blog', link: '/' },
@@ -26,8 +28,10 @@ const StyledBox = styled(Box)({
 	justifyContent: 'right',
 });
 
-export default function NavBar() {
+export default function NavBar({ isAuthenticated, setIsAuthenticated }) {
 	const [anchorElNav, setAnchorElNav] = useState(null);
+
+	const navigate = useNavigate();
 
 	const handleOpenNavMenu = (event) => {
 		setAnchorElNav(event.currentTarget);
@@ -36,6 +40,16 @@ export default function NavBar() {
 	const handleCloseNavMenu = () => {
 		setAnchorElNav(null);
 	};
+
+	function handleSignOut() {
+		handleCloseNavMenu();
+
+		if (isAuthenticated) {
+			sessionStorage.removeItem('token');
+			setIsAuthenticated(false);
+			navigate('/signout');
+		}
+	}
 
 	return (
 		<div className='nav-bar'>
@@ -68,6 +82,11 @@ export default function NavBar() {
 										</Typography>
 									</MenuItem>
 								))}
+								<MenuItem onClick={handleSignOut}>
+									<Typography textAlign="center">
+										{'Sign out'}
+									</Typography>
+								</MenuItem>
 							</Menu>
 						</Box>
 						<h2> Dev Blog </h2>
@@ -84,8 +103,11 @@ export default function NavBar() {
 									<Typography textAlign="center">
 										{page.name}
 									</Typography>
-								</Button>
+								</Button>	
 							))}
+							<IconButton onClick={handleSignOut}>
+								<LogoutIcon />
+							</IconButton>
 						</StyledBox>
 					</Toolbar>
 				</Container>
