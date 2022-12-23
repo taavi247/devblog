@@ -27,8 +27,8 @@ const Blog = () => {
 
   return (
     <Container maxWidth='md'>
-      {posts.map((post) => (
-        <Post key={post.title} post={post} />
+      {posts.map((post, index) => (
+        <Post key={post.title + index} post={post} />
       ))}
     </Container>
   );

@@ -30,7 +30,7 @@ const ManageBlog = () => {
         document.getElementById('post_image').value = '';
       }
     }
-  }, [post]);
+  }, [post, isAuthenticated]);
 
   useEffect(() => {
     checkIfAuthenticated();
@@ -97,14 +97,14 @@ const ManageBlog = () => {
       method: 'GET',
       headers: {
         'content-type': 'application/json',
-        'Authorization': 'Token ' + sessionStorage.getItem('token')
+        'Authorization': 'Token ' + getToken()
       },
     };
 
     fetch(URL_AUTH_USER, options)
       .then(response => response.json())
       .then(payload => {
-        if (payload.Authenticated == 'True') {
+        if (payload.Authenticated === 'True') {
           setIsAuthenticated(true);
         }
         else {
@@ -113,13 +113,13 @@ const ManageBlog = () => {
       })
   }
 
+  const getToken = () => {
+    return sessionStorage.getItem('token');
+  }
+
   const setToken = (token) => {
     sessionStorage.setItem('token', token);
     checkIfAuthenticated();
-  }
-
-  if (!isAuthenticated) {
-    return <Login setToken={setToken} />
   }
 
   const handleSubmit = async e => {
@@ -136,67 +136,72 @@ const ManageBlog = () => {
       method: 'POST',
       headers: {
         'content-type': 'application/json',
-        'Authorization': 'Token ' + sessionStorage.getItem('token')
+        'Authorization': 'Token ' + getToken()
       },
       body: JSON.stringify({ title, description, content, image, post_id })
     };
 
-    const response = await fetch(URL_POSTAPI, options);
+    await fetch(URL_POSTAPI, options);
   }
 
-  return (
-    <Container className='blog_list' maxWidth='md'>
-      <b>Select post</b>
-      <br />
-      <select
-        id='select_post'
-        className='select_post'
-        onClick={handleSelectClick}
-        onChange={handleSelectChange}
-      >
-        <option value='choose' disabled>
-          -- Select Post --
-        </option>
-        <option id='select_new' value='new'>
-          - Create a new post -
-        </option>
-        {getTitleOptions()}
-      </select>
-      <button onClick={handleDeleteClick}>
-        Delete
-      </button>
+  if (!getToken() && !isAuthenticated) {
+    return <Login setToken={setToken} />
+  }
+  else {
+    return (
+      <Container className='blog_list' maxWidth='md'>
+        <b>Select post</b>
+        <br />
+        <select
+          id='select_post'
+          className='select_post'
+          onClick={handleSelectClick}
+          onChange={handleSelectChange}
+        >
+          <option value='choose' disabled>
+            -- Select Post --
+          </option>
+          <option id='select_new' value='new'>
+            - Create a new post -
+          </option>
+          {getTitleOptions()}
+        </select>
+        <button onClick={handleDeleteClick}>
+          Delete
+        </button>
 
-      <form onSubmit={handleSubmit}>
-        <label>
-          <b>Title</b>
+        <form onSubmit={handleSubmit}>
+          <label>
+            <b>Title</b>
+            <br />
+            <textarea id='post_title' name='title' rows='1' cols='80' />
+          </label>
           <br />
-          <textarea id='post_title' name='title' rows='1' cols='80' />
-        </label>
-        <br />
-        <label>
-          <b>Image URL</b>
+          <label>
+            <b>Image URL</b>
+            <br />
+            <textarea id='post_image' name='image' rows='1' cols='80' />
+          </label>
           <br />
-          <textarea id='post_image' name='image' rows='1' cols='80' />
-        </label>
-        <br />
-        <label>
-          <b>Description</b>
+          <label>
+            <b>Description</b>
+            <br />
+            <textarea id='post_description' name='description' rows='10' cols='80' />
+          </label>
           <br />
-          <textarea id='post_description' name='description' rows='10' cols='80' />
-        </label>
-        <br />
-        <label>
-          <b>Content</b>
+          <label>
+            <b>Content</b>
+            <br />
+            <textarea id='post_content' name='content' rows='30' cols='80' />
+          </label>
           <br />
-          <textarea id='post_content' name='content' rows='30' cols='80' />
-        </label>
-        <br />
-        <input type='hidden' id='post_id' name='post_id' />
-        <input type='submit' onClick={handleClickSubmit} value='Save' />
-        <span>{isSaved && <p>Saving...</p>}</span>
-      </form>
-    </Container>
-  );
+          <input type='hidden' id='post_id' name='post_id' />
+          <input type='submit' onClick={handleClickSubmit} value='Save' />
+          <span>{isSaved && <p>Saving...</p>}</span>
+        </form>
+      </Container>
+    );
+  }
 }
 
 export default ManageBlog;

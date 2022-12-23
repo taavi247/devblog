@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Box, Paper } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
@@ -12,11 +12,11 @@ const StyledLoginBox = styled(Box)({
 });
 
 const Login = ({ setToken }) => {
-  const [username, setUserName] = useState();
-  const [password, setPassword] = useState();
-
   const handleSubmit = async e => {
     e.preventDefault();
+
+    const username = e.target.username.value;
+    const password = e.target.password.value;
 
     const options = {
       referrer: 'no-referrer-when-downgrade',
@@ -37,20 +37,12 @@ const Login = ({ setToken }) => {
         <form onSubmit={handleSubmit}>
           <label>
             <b>Username</b>
-            <input
-              type='text'
-              name='username'
-              onChange={e => setUserName(e.target.value)}
-            />
+            <input type='text' name='username' />
           </label>
           <br />
           <label>
             <b>Password </b>
-            <input
-              type='password'
-              name='password'
-              onChange={e => setPassword(e.target.value)}
-            />
+            <input type='password' name='password' />
           </label>
           <br />
           <button type='submit'>Sign in</button>

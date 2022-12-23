@@ -8,7 +8,7 @@ const ShowPost = () => {
 
   return (
     <Container maxWidth='md'>
-      <br />
+      <br/>
       <Typography variant='h5'>{post.title}</Typography>
       <br />
       {PostTextStylizer(post.content)}

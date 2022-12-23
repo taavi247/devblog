@@ -1,15 +1,28 @@
 import React from 'react';
-import { Typography } from '@mui/material';
+import { CardMedia, Typography } from '@mui/material';
 
 const PostTextStylizer = (text) => {
-  var splitted = text.split('\n');
-  return splitted.map((str, index) => {
-    return (
-      <React.Fragment>
-        <Typography>{str}</Typography>
-        <br />
-      </React.Fragment>
-    );
+  var splittedParagraphs = text.split('\n');
+  return splittedParagraphs.map((str, index) => {
+    if (str.startsWith('image:')) {
+      return (
+        <CardMedia
+          key={index}
+          component='img'
+          image={str.slice(6)}
+          alt='Picture'
+          sx={{ display: { xs: 'block' } }}
+        />
+      );
+    }
+    else {
+      return (
+        <React.Fragment key={index}>
+          <Typography>{str}</Typography>
+          <br />
+        </React.Fragment>
+      );
+    }
   });
 }
 
